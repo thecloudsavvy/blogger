@@ -1,0 +1,40 @@
+version: '3.1'
+
+services:
+
+  base_url:
+    image: healerkay/bit-blog:1
+    restart: always
+    container_name: bitblog
+    depends_on:
+      - mysql
+    ports:
+      - 74:80
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    container_name:  mysql1
+    ports:
+      - 3309:3306
+    environment:
+      MYSQL_DATABASE: bit-blog
+      MYSQL_ROOT_USER: root 
+      MYSQL_ROOT_PASSWORD: password
+
+
+
+
+
+
+
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    container_name: phpmyadmin1
+    ports:
+      - 9192:80
+    environment:
+      PMA_HOST: mysql
+      PMA_ARBITRARY: 1

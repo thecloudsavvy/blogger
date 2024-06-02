@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bit-blog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bit-blog
+  template:
+    metadata:
+      labels:
+        app: bit-blog
+    spec:
+      containers:
+      - name: bit-blog
+        image: healerkay/bit-blog:1
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bit-blog-service
+spec:
+  selector:
+    app: bit-blog
+  ports:
+  - port: 80
+    targetPort: 80
+  
+
+ 
+
+
+

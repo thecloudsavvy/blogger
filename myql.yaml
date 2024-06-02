@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bit-blog-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bit-blog-mysql
+  template:
+    metadata:
+      labels:
+        app: bit-blog-mysql
+    spec:
+      containers:
+      - name: bit-blog-mysql
+        image: mysql:5.7
+        ports:
+        - containerPort: 80
+          name: http
+        volumeMounts:
+        - name: bit-blog-storage 
+          mountPath: /usr/app/bitblog
+        env:
+        - name: MYSQL_ROOT_USER
+          value: root
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bit-blog-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          value: bit-blog
+
+      volumes:
+      - name: bit-blog-storage
+        persistentVolumeClaim:
+          claimName: bit-blog-pvc
+
+
